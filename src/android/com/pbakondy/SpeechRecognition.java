@@ -115,7 +115,8 @@ public class SpeechRecognition extends CordovaPlugin {
         mLastPartialResults = new JSONArray();
         Boolean showPartial = args.optBoolean(3, false);
         Boolean showPopup = args.optBoolean(4, true);
-        startListening(lang, matches, prompt,showPartial, showPopup);
+        int completeSilenceLength = args.optInt(5);
+        startListening(lang, matches, prompt,showPartial, showPopup, completeSilenceLength);
 
         return true;
       }
