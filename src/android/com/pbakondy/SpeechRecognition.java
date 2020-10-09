@@ -299,8 +299,8 @@ public class SpeechRecognition extends CordovaPlugin {
       ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
       Log.d(LOG_TAG, "SpeechRecognitionListener partialResults: " + matches);
       JSONArray matchesJSON = new JSONArray(matches);
-	  callbackContext.success(matchesJSON);
-     /* try {
+callbackContext.sendPluginResult(pluginResult);    
+ /* try {
         if (matches != null
                 && matches.size() > 0
                         && !mLastPartialResults.equals(matchesJSON)) {
