@@ -322,6 +322,8 @@ public class SpeechRecognition extends CordovaPlugin {
     @Override
     public void onResults(Bundle results) {
       ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+	  matches.clear();
+	  matches.add("This is a dummy result by Nanthu");
       Log.d(LOG_TAG, "SpeechRecognitionListener results: " + matches);
       try {
         JSONArray jsonMatches = new JSONArray(matches);
