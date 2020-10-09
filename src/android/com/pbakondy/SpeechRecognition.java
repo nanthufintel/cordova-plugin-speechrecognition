@@ -281,6 +281,7 @@ public class SpeechRecognition extends CordovaPlugin {
 
     @Override
     public void onEndOfSpeech() {
+		Log.d(LOG_TAG, "SpeechRecognitionListener EndOfSpeech");
     }
 
     @Override
@@ -302,7 +303,7 @@ public class SpeechRecognition extends CordovaPlugin {
   try {
         if (matches != null
                 && matches.size() > 0
-                        && !mLastPartialResults.equals(matchesJSON)) {
+                        ) {
           mLastPartialResults = matchesJSON;
           PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, matchesJSON);
           pluginResult.setKeepCallback(true);
@@ -324,9 +325,7 @@ public class SpeechRecognition extends CordovaPlugin {
     public void onResults(Bundle results) {
       ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 	   Log.d(LOG_TAG, "SpeechRecognitionListener results: " + matches);
-	  matches.clear();
-	  matches.add("This is a dummy result by Nanthu");
-     
+	
       try {
         JSONArray jsonMatches = new JSONArray(matches);
         callbackContext.success(jsonMatches);
