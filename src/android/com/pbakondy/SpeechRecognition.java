@@ -26,7 +26,7 @@ import android.speech.SpeechRecognizer;
 
 import android.util.Log;
 import android.view.View;
-
+import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -172,8 +172,8 @@ public class SpeechRecognition extends CordovaPlugin {
     intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, matches);
     intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
             activity.getPackageName());
-    intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, showPartial);
-    intent.putExtra("android.speech.extra.DICTATION_MODE", showPartial);
+    intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
+    intent.putExtra("android.speech.extra.DICTATION_MODE", true);
 
     if (completeSilenceLength != 0) {
       intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, new Long(completeSilenceLength));
@@ -299,7 +299,8 @@ public class SpeechRecognition extends CordovaPlugin {
       ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
       Log.d(LOG_TAG, "SpeechRecognitionListener partialResults: " + matches);
       JSONArray matchesJSON = new JSONArray(matches);
-      try {
+	  callbackContext.success(matchesJSON);
+     /* try {
         if (matches != null
                 && matches.size() > 0
                         && !mLastPartialResults.equals(matchesJSON)) {
@@ -307,12 +308,12 @@ public class SpeechRecognition extends CordovaPlugin {
           PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, matchesJSON);
           pluginResult.setKeepCallback(true);
           //callbackContext.sendPluginResult(pluginResult);
-		  callbackContext.success(matchesJSON);
+		  
         }
       } catch (Exception e) {
         e.printStackTrace();
         callbackContext.error(e.getMessage());
-      }
+      }*/
     }
 
     @Override
@@ -323,9 +324,10 @@ public class SpeechRecognition extends CordovaPlugin {
     @Override
     public void onResults(Bundle results) {
       ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+	   Log.d(LOG_TAG, "SpeechRecognitionListener results: " + matches);
 	  matches.clear();
 	  matches.add("This is a dummy result by Nanthu");
-      Log.d(LOG_TAG, "SpeechRecognitionListener results: " + matches);
+     
       try {
         JSONArray jsonMatches = new JSONArray(matches);
         callbackContext.success(jsonMatches);
